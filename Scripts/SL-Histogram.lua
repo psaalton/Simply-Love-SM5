@@ -78,6 +78,13 @@ NPS_Histogram = function(player, _w, _h)
 							-- that has been linearly interpolated by that percent between the colors provided
 							upper = lerp_color(math.abs(y/_h), yellow, orange )
 
+							if #verts > 1 then
+								local previousY = verts[#verts][1][2]
+								local previousUpper = verts[#verts][2]
+								verts[#verts+1] = {{x, 0, 0}, yellow}
+								verts[#verts+1] = {{x, previousY, 0}, previousUpper}
+							end
+
 							verts[#verts+1] = {{x, 0, 0}, yellow} -- bottom of graph (yellow)
 							verts[#verts+1] = {{x, y, 0}, upper}  -- top of graph (somewhere between yellow and orange)
 						end
