@@ -21,6 +21,11 @@ NPS_Histogram = function(player, _w, _h)
 				Song = GAMESTATE:GetCurrentSong()
 			end
 
+			if not Steps or not Song then
+				actor:SetNumVertices(0):SetVertices({})
+				return
+			end
+
 			local PeakNPS, NPSperMeasure = GetNPSperMeasure(Song, Steps)
 			-- broadcast this for any other actors on the current screen that rely on knowing the peak nps
 			MESSAGEMAN:Broadcast("PeakNPSUpdated", {PeakNPS=PeakNPS})
