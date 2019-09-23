@@ -70,6 +70,7 @@ local use_smaller_graph = isTwoPlayers or notefield_is_centered
 
 local FailOnMissedTarget = PREFSMAN:GetPreference("EventMode") and SL[pn].ActiveModifiers.ActionOnMissedTarget == "Fail"
 local RestartOnMissedTarget = PREFSMAN:GetPreference("EventMode") and SL[pn].ActiveModifiers.ActionOnMissedTarget == "Restart"
+local RestartOnMissedGrindTarget = PREFSMAN:GetPreference("EventMode") and SL[pn].ActiveModifiers.GrindTarget ~= "Off"
 
 -- ---------------------------------------------------------------
 -- calculate size and positioning of graph(s)
@@ -473,7 +474,19 @@ if SL[pn].ActiveModifiers.DataVisualizations == "Target Score Graph" then
 	end
 end
 
-
+if RestartOnMissedGrindTarget then
+	player_af[#player_af+1] = Def.ActorFrame {
+		UpdateCommand=function(self)
+			local steps = GAMESTATE:GetCurrentSteps(pn)
+			rv = steps:GetRadarValues(pn)
+			local val = rv:GetValue('RadarCategory_TapsAndHolds')
+			local targetGrindScore = SL[pn].ActiveModifiers.GrindTarget
+			if GetGrindistaCanScoreBeOver(pss, tonumber(targetGrindScore), tonumber(val)) then
+				SCREENMAN:GetTopScreen():SetPrevScreenName("ScreenGameplay"):SetNextScreenName("ScreenGameplay"):begin_backing_out()
+			end
+		end
+	}
+end
 -- ---------------------------------------------------------------
 -- FIXME: The ActionOnMissedTarget logic depends on the Pacemaker logic.
 -- From a programmer's perspective, it makes sense to lump it all together in a single Actor,
