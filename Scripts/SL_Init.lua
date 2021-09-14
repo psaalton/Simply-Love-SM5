@@ -37,7 +37,7 @@ local PlayerDefaults = {
 				ErrorBar = "None",
 				ErrorBarUp = false,
 				ErrorBarMultiTick = false,
-
+				LaneCover="0%",
 				ShowFaPlusWindow = false,
 				ShowEXScore = false,
 			}
