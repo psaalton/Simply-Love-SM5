@@ -39,6 +39,8 @@ local PlayerDefaults = {
 				ErrorBarMultiTick = false,
 				LaneCover="0%",
 				BackgroundBrightness="0%",
+				NotefieldPositionX = "50%",
+				NotefieldPositionY = "0%",
 				ShowFaPlusWindow = false,
 				ShowEXScore = false,
 			}
