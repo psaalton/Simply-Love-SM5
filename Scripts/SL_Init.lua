@@ -44,6 +44,7 @@ local PlayerDefaults = {
 				ErrorBarTrim = false,
 
 				TimingWindows = {true, true, true, true, true},
+				LaneCover="0%",
 				ShowFaPlusWindow = false,
 				ShowEXScore = false,
 				ShowFaPlusPane = true,
