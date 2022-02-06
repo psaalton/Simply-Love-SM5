@@ -63,6 +63,8 @@ t[#t+1] = LoadActor("./Shared/CasualHelpText.lua")
 
 t[#t+1] = LoadActor("./SyncStartScores.lua")
 
+t[#t+1] = LoadActor("./SessionStatistics.lua")
+
 -- -----------------------------------------------------------------------
 -- Then, load player-specific actors.
 
