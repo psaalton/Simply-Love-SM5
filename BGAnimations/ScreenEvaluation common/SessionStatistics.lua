@@ -21,7 +21,7 @@ for player in ivalues(Players) do
 
     sessionStats[#sessionStats+1] = LoadFont("Common Normal").. {
         Name="Stats",
-        Text=("Songs: %s\nNotes: %s\nPlayed: %sh %sm %ss"):format(
+        Text=("Songs: %s\nNotes: %s\n%sh %sm %ss"):format(
 
         stats.songsPlayedThisGame,
         stats.notesHitThisGame, 
