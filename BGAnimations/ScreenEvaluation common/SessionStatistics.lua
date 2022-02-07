@@ -1,7 +1,7 @@
 local Players = GAMESTATE:GetHumanPlayers();
 
-local y_pos = _screen.cy - 170
-local y_quad_pos = 70
+local y_pos = 214
+local y_quad_pos = 214
 
 local stats
 local sessionStats = Def.ActorFrame {}

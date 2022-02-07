@@ -106,7 +106,51 @@ for player in ivalues(PlayerNumber) do
 	}
 end
 
--- -----------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+for player in ivalues(PlayerNumber) do
+	local stats = SessionDataForStatistics(player)
+    local x_pos = player==PLAYER_1 and 60 or _screen.w-60
+    local x_quad_pos = player==PLAYER_1 and 50  or _screen.w-50
+	local h   = (player==PLAYER_1 and left or right)
+	local x   = (player==PLAYER_1 and 200 or _screen.w -200)
+
+	t[#t+1] = LoadFont("Common Normal")..{
+        Name="Steps",
+        Text=("%sh %sm %ss - Notes: %s"):format(
+		stats.hours,
+        stats.minutes,
+        stats.seconds,
+		stats.notesHitThisGame 	
+        ),
+        
+        InitCommand=function(self)
+            self:zoom(0.9)
+			self:xy(x, _screen.h-16)
+        end,
+
+		ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+
+		RefreshCommand=function(self)
+			local screen = SCREENMAN:GetTopScreen()
+			local screenName = screen:GetName()
+			stats = SessionDataForStatistics(player)
+			if screen and GAMESTATE:IsHumanPlayer(player) then
+				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
+				self:settext(("%sh %sm %ss - Notes: %s"):format(
+					stats.hours,
+					stats.minutes,
+					stats.seconds,
+					stats.notesHitThisGame))
+			else  
+				self:visible( false )
+			end
+		end	
+    }
+end
+
+
+
 
 -- what is aux?
 t[#t+1] = LoadActor(THEME:GetPathB("ScreenSystemLayer","aux"))
