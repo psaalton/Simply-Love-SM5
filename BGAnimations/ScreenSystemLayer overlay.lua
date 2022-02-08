@@ -117,13 +117,7 @@ for player in ivalues(PlayerNumber) do
 
 	t[#t+1] = LoadFont("Common Normal")..{
         Name="Steps",
-        Text=("Songs: %s - %sh %sm %ss - Notes: %s"):format(
-		stats.songsPlayedThisGame,
-		stats.hours,
-        stats.minutes,
-        stats.seconds,
-		stats.notesHitThisGame 	
-        ),
+        Text=(""),
         
         InitCommand=function(self)
             self:zoom(0.9)
@@ -137,12 +131,20 @@ for player in ivalues(PlayerNumber) do
 			local screenName = screen:GetName()
 			stats = SessionDataForStatistics(player)
 			if screen and GAMESTATE:IsHumanPlayer(player) then
+				if stats.hours < 10 then
+					stats.hours = 0 .. stats.hours
+				end
+				if stats.minutes < 10 then
+					stats.minutes = 0 .. stats.minutes
+				end
+				if stats.notesHitThisGame > 9999 then
+					stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
+				end
 				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
-				self:settext(("Songs: %s - %sh %sm %ss - Notes: %s"):format(
+				self:settext(("Songs: %s - %s:%s - Notes: %s"):format(
 					stats.songsPlayedThisGame,
 					stats.hours,
 					stats.minutes,
-					stats.seconds,
 					stats.notesHitThisGame))
 			else  
 				self:visible( false )
