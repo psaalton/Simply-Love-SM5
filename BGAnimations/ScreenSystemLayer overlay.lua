@@ -113,11 +113,12 @@ for player in ivalues(PlayerNumber) do
     local x_pos = player==PLAYER_1 and 60 or _screen.w-60
     local x_quad_pos = player==PLAYER_1 and 50  or _screen.w-50
 	local h   = (player==PLAYER_1 and left or right)
-	local x   = (player==PLAYER_1 and 200 or _screen.w -200)
+	local x   = (player==PLAYER_1 and _screen.w * 0.25 or _screen.w * 0.75)
 
 	t[#t+1] = LoadFont("Common Normal")..{
         Name="Steps",
-        Text=("%sh %sm %ss - Notes: %s"):format(
+        Text=("Songs: %s - %sh %sm %ss - Notes: %s"):format(
+		stats.songsPlayedThisGame,
 		stats.hours,
         stats.minutes,
         stats.seconds,
@@ -137,7 +138,8 @@ for player in ivalues(PlayerNumber) do
 			stats = SessionDataForStatistics(player)
 			if screen and GAMESTATE:IsHumanPlayer(player) then
 				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
-				self:settext(("%sh %sm %ss - Notes: %s"):format(
+				self:settext(("Songs: %s - %sh %sm %ss - Notes: %s"):format(
+					stats.songsPlayedThisGame,
 					stats.hours,
 					stats.minutes,
 					stats.seconds,
@@ -183,10 +185,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 		end
 
 		if PREFSMAN:GetPreference("EventMode") then
-			local text = ("%s %s"):format(
-				"Songs played: ",
-				SL.Global.Stages.PlayedThisGame
-			)
+			local text = ("Event Mode")
 			self:settext(text)
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then

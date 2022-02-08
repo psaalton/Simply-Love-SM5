@@ -1,7 +1,7 @@
 local Players = GAMESTATE:GetHumanPlayers();
 
-local y_pos = 214
-local y_quad_pos = 214
+local y_pos = 199
+local y_quad_pos = 199
 
 local stats
 local sessionStats = Def.ActorFrame {}
@@ -13,7 +13,7 @@ for player in ivalues(Players) do
 
     sessionStats[#sessionStats+1] = Def.Quad {
         InitCommand=function(self)
-            self:diffuse(color("#101519")):zoomto(150, 60)
+            self:diffuse(color("#101519")):zoomto(150, 90)
             self:y(y_quad_pos)
             self:x(x_quad_pos)
         end
@@ -21,18 +21,20 @@ for player in ivalues(Players) do
 
     sessionStats[#sessionStats+1] = LoadFont("Common Normal").. {
         Name="Stats",
-        Text=("Songs: %s\nNotes: %s\n%sh %sm %ss"):format(
+        Text=("Songs: %s\nNotes: %s\n%sh %sm %ss\nSong restarted: %s \nTotal restarts: %s"):format(
 
         stats.songsPlayedThisGame,
         stats.notesHitThisGame, 
         stats.hours,
         stats.minutes,
-        stats.seconds
+        stats.seconds,
+        SL.RestartCounter,
+        stats.restartCountThisGame
 
         ), 
         
         InitCommand=function(self)
-            self:zoom(0.8)
+            self:zoom(0.75)
             self:y(y_pos)
             self:x(x_pos)
         end
