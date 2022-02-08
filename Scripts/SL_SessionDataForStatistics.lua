@@ -15,9 +15,6 @@ SessionDataForStatistics = function(player)
 
         if stats and stats.judgments then
 
-            
-            PrintTable(stats)
-            PrintTable(stats.judgments)
             -- increment notesHitThisGame by the total number of tapnotes hit in this particular stepchart by using the per-column data
             -- don't rely on the engine's non-Miss judgment counts here for two reasons:
             -- 1. we want jumps/hands to count as more than 1 here
