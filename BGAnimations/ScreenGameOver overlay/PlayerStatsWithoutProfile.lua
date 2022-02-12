@@ -13,7 +13,7 @@ for i,stats in pairs( SL[ToEnumShortString(player)].Stages.Stats ) do
 	songsPlayedThisGame = songsPlayedThisGame + (stats and not stats.isRestart and 1 or 0)
 	restartCountThisGame = restartCountThisGame + (stats and stats.isRestart and 1 or 0)
 
-	if stats and stats.judgments then
+	if stats and stats.column_judgments then
 
 		-- increment notesHitThisGame by the total number of tapnotes hit in this particular stepchart by using the per-column data
 		-- don't rely on the engine's non-Miss judgment counts here for two reasons:
@@ -21,9 +21,11 @@ for i,stats in pairs( SL[ToEnumShortString(player)].Stages.Stats ) do
 		-- 2. stepcharts can have non-1 #COMBOS parameters set which would artbitraily inflate notesHitThisGame
 
 
-		for judgment, judgment_count in pairs(stats.judgments) do
-			if judgment ~= "Miss" then
-				notesHitThisGame = notesHitThisGame + judgment_count
+		for column, judgments in ipairs(stats.column_judgments) do
+			for judgment, judgment_count in pairs(judgments) do
+				if judgment ~= "Miss" then
+					notesHitThisGame = notesHitThisGame + judgment_count
+				end
 			end
 		end
 	end
