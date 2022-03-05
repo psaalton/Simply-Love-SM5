@@ -27,11 +27,8 @@ end
 local af = Def.ActorFrame{
 	InitCommand=function(self) af = self:visible(false) end,
 
-	-- the SM5 engine has broadcast that the player input a Metrics-based button code
-	CodeMessageCommand=function(self, params)
-		if params.Name == "EscapeFromEventMode" then
-			self:queuecommand("Show")
-		end
+	MenuBackPressedCommand=function(self)
+		self:queuecommand("Show")
 	end,
 
 	-- show the overlay
@@ -96,9 +93,8 @@ local af = Def.ActorFrame{
 			for player in ivalues(PlayerNumber) do
 				SCREENMAN:set_input_redirected(player, false)
 			end
-			-- determine what the previous screen would be (because next screen is normally PlayerOptions or Gameplay)
-			-- make that the next screen, and transition to it
-			topscreen:SetNextScreenName( topscreen:GetPrevScreenName() ):StartTransitioningScreen("SM_GoToNextScreen")
+			-- exit from song wheel, this is what pressing back in the song wheel did before
+			topscreen:GoBack()
 		end
 	end
 }
