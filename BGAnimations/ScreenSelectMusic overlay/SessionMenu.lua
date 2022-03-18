@@ -1,30 +1,36 @@
 if not PREFSMAN:GetPreference("EventMode") then return end
 
-local text_width = 420
 local active_index = 0
-local choice_actors, sfx = {}, {}
+local choice_actors = {}
+local sfx = {}
 local af
 
 local InputHandler = function(event)
 	if not event.PlayerNumber or not event.button then return false end
 
 	if event.type == "InputEventType_FirstPress" then
-		if event.GameButton == "MenuRight" or event.GameButton == "MenuLeft" then
-			af:queuecommand("ChangeChoice")
+		if event.GameButton == "MenuRight" or event.GameButton == "MenuDown" then
+			af:queuecommand("MoveRight")
+
+		elseif event.GameButton == "MenuLeft" or event.GameButton == "MenuUp" then
+			af:queuecommand("MoveLeft")
 
 		-- cancel out of this prompt overlay and return to selecting a song
 		elseif event.GameButton == "Back" or event.GameButton == "Select" or (event.GameButton == "Start" and active_index == 0) then
 			af:queuecommand("Cancel")
 
-		-- back out of ScreenSelectMusic and head to either EvaluationSummary (if stages were played) or TitleMenu
 		elseif event.GameButton == "Start" and active_index == 1 then
+			af:queuecommand("SwitchProfiles")
+
+		-- back out of ScreenSelectMusic and head to either EvaluationSummary (if stages were played) or TitleMenu
+		elseif event.GameButton == "Start" and active_index == 2 then
 			af:queuecommand("YourFinished")
 		end
 	end
 end
 
 
-local af = Def.ActorFrame{
+af = Def.ActorFrame{
 	InitCommand=function(self) af = self:visible(false) end,
 
 	MenuBackPressedCommand=function(self)
@@ -37,10 +43,11 @@ local af = Def.ActorFrame{
 		if topscreen then
 			-- ensure that the first choice (no) will be active when the prompt overlay first appears
 			active_index = 0
-			-- make "no" the active_choice
-			choice_actors[0]:stoptweening():diffuse(PlayerColor(PLAYER_2)):zoom(1.1)
-			-- ensure that "yes" is not the active_choice
+			-- make "back" the active_choice
+			choice_actors[0]:stoptweening():diffuse(PlayerColor(PLAYER_2)):zoom(0.7)
+			-- ensure that other choices are not the active_choice
 			choice_actors[1]:stoptweening():diffuse(1,1,1,1):zoom(0.5)
+			choice_actors[2]:stoptweening():diffuse(1,1,1,1):zoom(0.5)
 
 			-- prevent the MusicWheel from continually scrolling in the background because the last
 			-- input event before disabling the engine's input handling was a MenuRight
@@ -58,13 +65,35 @@ local af = Def.ActorFrame{
 		end
 	end,
 
-	ChangeChoiceCommand=function(self)
+	MoveLeftCommand=function(self)
 		-- old active_choice loses focus
 		choice_actors[active_index]:diffuse(1,1,1,1):stoptweening():linear(0.1):zoom(0.5)
+
 		-- update active_index
-		active_index = (active_index + 1)%2
+		active_index = active_index - 1
+
+		if active_index < 0 then
+			active_index = #choice_actors
+		end
+
 		-- new active_choice gains focus
-		choice_actors[active_index]:diffuse(PlayerColor(PLAYER_2)):stoptweening():linear(0.1):zoom(1.1)
+		choice_actors[active_index]:diffuse(PlayerColor(PLAYER_2)):stoptweening():linear(0.1):zoom(0.7)
+		--play sound effect
+		sfx.change:play()
+	end,
+	MoveRightCommand=function(self)
+		-- old active_choice loses focus
+		choice_actors[active_index]:diffuse(1,1,1,1):stoptweening():linear(0.1):zoom(0.5)
+
+		-- update active_index
+		active_index = active_index + 1
+
+		if active_index > #choice_actors then
+			active_index = 0
+		end
+
+		-- new active_choice gains focus
+		choice_actors[active_index]:diffuse(PlayerColor(PLAYER_2)):stoptweening():linear(0.1):zoom(0.7)
 		--play sound effect
 		sfx.change:play()
 	end,
@@ -75,7 +104,7 @@ local af = Def.ActorFrame{
 			sfx.start:play()
 			-- deactivate the Lua InputHandler
 			topscreen:RemoveInputCallback(InputHandler)
-			-- return input handling to the SM5 engine so players can continune choosing a song
+			-- return input handling to the SM5 engine so players can continue choosing a song
 			for player in ivalues(PlayerNumber) do
 				SCREENMAN:set_input_redirected(player, false)
 			end
@@ -83,7 +112,22 @@ local af = Def.ActorFrame{
 			self:visible(false)
 		end
 	end,
-	-- my finished?
+	SwitchProfilesCommand=function(self)
+		local topscreen = SCREENMAN:GetTopScreen()
+		if topscreen then
+			-- play the start sound effect
+			sfx.start:play()
+			-- deactivate the Lua InputHandler
+			topscreen:RemoveInputCallback(InputHandler)
+			-- return input handling to the SM5 engine so players can continue choosing a song
+			for player in ivalues(PlayerNumber) do
+				SCREENMAN:set_input_redirected(player, false)
+			end
+			-- hide this overlay
+			self:visible(false)
+		end
+	end,
+	-- quit session
 	YourFinishedCommand=function(self)
 		local topscreen = SCREENMAN:GetTopScreen()
 		if topscreen then
@@ -106,13 +150,6 @@ af[#af+1] = Def.Sound{ File=THEME:GetPathS("Common", "Start"), InitCommand=funct
 -- darkened background
 af[#af+1] = Def.Quad{ InitCommand=function(self) self:FullScreen():diffuse(0,0,0,0.925) end }
 
--- "Do you want to exit this game?" prompt
-af[#af+1] = Def.BitmapText{
-	Font="Common Normal",
-	Text=ScreenString("PromptBeforeExiting"),
-	InitCommand=function(self) self:zoom(1.3):xy(_screen.cx-((self:GetWidth()/2)*self:GetZoom()), _screen.cy-70):_wrapwidthpixels(text_width):align(0,0) end
-}
-
 -- -------------------------------
 -- choices
 
@@ -121,43 +158,49 @@ local choices_af = Def.ActorFrame{
 	OnCommand=function(self) self:sleep(0.333):linear(0.15):diffusealpha(1) end,
 }
 
-local no = Def.ActorFrame{
+local back = Def.ActorFrame{
 	InitCommand=function(self)
 		choice_actors[0] = self
-		self:x(THEME:GetMetric("ScreenPrompt","Answer1Of2X"))
-		self:y(250):diffuse( PlayerColor(PLAYER_2) )
+		self:x(_screen.cx)
+		self:y(_screen.cy - 40)
 	end,
 
 	LoadFont("Common Bold")..{
-		Text=THEME:GetString("ScreenPromptToResetPreferencesToStock","No"),
-		InitCommand=function(self) self:zoom(1.1) end
+		Text="Back to Select Music",
+		InitCommand=function(self) self:zoom(0.7) end
 	},
-	LoadFont("Common Normal")..{
-		Text=ScreenString("NoInfo"),
-		InitCommand=function(self) self:addy(30):zoom(0.825) end,
-	}
 }
 
-local yes = Def.ActorFrame{
+local switchProfiles = Def.ActorFrame{
 	InitCommand=function(self)
 		choice_actors[1] = self
-		self:x(THEME:GetMetric("ScreenPrompt","Answer2Of2X"))
-		self:y(250)
+		self:x(_screen.cx)
+		self:y(_screen.cy)
 	end,
 
 	LoadFont("Common Bold")..{
-		Text=THEME:GetString("ScreenPromptToResetPreferencesToStock","Yes"),
-		InitCommand=function(self) self:zoom(1.1) end
+		Text="Switch profiles",
+		InitCommand=function(self) self:zoom(0.7) end
 	},
-	LoadFont("Common Normal")..{
-		Text=ScreenString("YesInfo"),
-		InitCommand=function(self) self:addy(30):zoom(0.825) end,
-	}
+}
+
+local quit = Def.ActorFrame{
+	InitCommand=function(self)
+		choice_actors[2] = self
+		self:x(_screen.cx)
+		self:y(_screen.cy + 40)
+	end,
+
+	LoadFont("Common Bold")..{
+		Text="Quit session",
+		InitCommand=function(self) self:zoom(0.7) end
+	},
 }
 -- -------------------------------
 
-table.insert(choices_af, yes)
-table.insert(choices_af,  no)
+table.insert(choices_af, quit)
+table.insert(choices_af, switchProfiles)
+table.insert(choices_af, back)
 table.insert(af, choices_af)
 
 return af

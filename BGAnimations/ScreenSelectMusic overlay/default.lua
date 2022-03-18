@@ -3,8 +3,8 @@ local af = Def.ActorFrame{
 	-- if ScreenGameplay is being entered "properly" or being reloaded by a scripted mod-chart.
 	-- If we're here in SelectMusic, set GameplayReloadCheck to false, signifying that the next
 	-- time ScreenGameplay loads, it should have a properly animated entrance.
-	InitCommand=function(self) 
-		SL.Global.GameplayReloadCheck = false 
+	InitCommand=function(self)
+		SL.Global.GameplayReloadCheck = false
 		SL.RestartCounter = 0
 
 		-- While other SM versions don't need this, Outfox resets the
@@ -54,9 +54,7 @@ local af = Def.ActorFrame{
 	-- This is only added in "dance" mode and if the service is available.
 	LoadActor("./Leaderboard.lua"),
 
-	-- a yes/no prompt overlay for backing out of SelectMusic when in EventMode can be
-	-- activated via "CodeEscapeFromEventMode" under [ScreenSelectMusic] in Metrics.ini
-	LoadActor("./EscapeFromEventMode.lua"),
+	LoadActor("./SessionMenu.lua"),
 
 	LoadActor("./SongSearch/default.lua"),
 }
