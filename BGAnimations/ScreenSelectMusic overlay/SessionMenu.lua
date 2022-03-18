@@ -20,7 +20,7 @@ local InputHandler = function(event)
 			af:queuecommand("Cancel")
 
 		elseif event.GameButton == "Start" and active_index == 1 then
-			af:queuecommand("SwitchProfiles")
+			af:queuecommand("ChangeProfiles")
 
 		-- back out of ScreenSelectMusic and head to either EvaluationSummary (if stages were played) or TitleMenu
 		elseif event.GameButton == "Start" and active_index == 2 then
@@ -31,6 +31,7 @@ end
 
 
 af = Def.ActorFrame{
+	-- hide at start
 	InitCommand=function(self) af = self:visible(false) end,
 
 	MenuBackPressedCommand=function(self)
@@ -112,7 +113,7 @@ af = Def.ActorFrame{
 			self:visible(false)
 		end
 	end,
-	SwitchProfilesCommand=function(self)
+	ChangeProfilesCommand=function(self)
 		local topscreen = SCREENMAN:GetTopScreen()
 		if topscreen then
 			-- play the start sound effect
@@ -125,6 +126,7 @@ af = Def.ActorFrame{
 			end
 			-- hide this overlay
 			self:visible(false)
+			MESSAGEMAN:Broadcast("ChangeProfiles")
 		end
 	end,
 	-- quit session
@@ -171,7 +173,7 @@ local back = Def.ActorFrame{
 	},
 }
 
-local switchProfiles = Def.ActorFrame{
+local changeProfiles = Def.ActorFrame{
 	InitCommand=function(self)
 		choice_actors[1] = self
 		self:x(_screen.cx)
@@ -179,7 +181,7 @@ local switchProfiles = Def.ActorFrame{
 	end,
 
 	LoadFont("Common Bold")..{
-		Text="Switch profiles",
+		Text="Change profiles",
 		InitCommand=function(self) self:zoom(0.7) end
 	},
 }
@@ -199,7 +201,7 @@ local quit = Def.ActorFrame{
 -- -------------------------------
 
 table.insert(choices_af, quit)
-table.insert(choices_af, switchProfiles)
+table.insert(choices_af, changeProfiles)
 table.insert(choices_af, back)
 table.insert(af, choices_af)
 

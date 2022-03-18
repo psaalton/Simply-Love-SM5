@@ -55,6 +55,7 @@ local af = Def.ActorFrame{
 	LoadActor("./Leaderboard.lua"),
 
 	LoadActor("./SessionMenu.lua"),
+	LoadActor("./ChangeProfiles.lua"),
 
 	LoadActor("./SongSearch/default.lua"),
 }

@@ -257,12 +257,12 @@ end
 
 -- load PlayerFrames for both
 if AutoStyle=="none" or AutoStyle=="versus" then
-	t[#t+1] = LoadActor("PlayerFrame.lua", {Player=PLAYER_1, Scroller=scrollers[PLAYER_1], ProfileData=profile_data, Avatars=avatars})
-	t[#t+1] = LoadActor("PlayerFrame.lua", {Player=PLAYER_2, Scroller=scrollers[PLAYER_2], ProfileData=profile_data, Avatars=avatars})
+	t[#t+1] = LoadActor("PlayerFrame.lua", {Layer="Underlay", Player=PLAYER_1, Scroller=scrollers[PLAYER_1], ProfileData=profile_data, Avatars=avatars})
+	t[#t+1] = LoadActor("PlayerFrame.lua", {Layer="Underlay", Player=PLAYER_2, Scroller=scrollers[PLAYER_2], ProfileData=profile_data, Avatars=avatars})
 
 -- load only for the MasterPlayerNumber
 else
-	t[#t+1] = LoadActor("PlayerFrame.lua", {Player=mpn, Scroller=scrollers[mpn], ProfileData=profile_data, Avatars=avatars})
+	t[#t+1] = LoadActor("PlayerFrame.lua", {Layer="Underlay", Player=mpn, Scroller=scrollers[mpn], ProfileData=profile_data, Avatars=avatars})
 end
 
 LoadActor("./JudgmentGraphicPreviews.lua", {af=t, profile_data=profile_data})

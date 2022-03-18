@@ -1,4 +1,5 @@
 local args = ...
+local targetLayer = args.Layer
 local player = args.Player
 local profile_data = args.ProfileData
 local avatars = args.Avatars
@@ -262,9 +263,15 @@ return Def.ActorFrame{
 					Name="NoteSkinPreview",
 					InitCommand=function(self) self:halign(0):zoom(0.25):xy(info.padding*3, 32) end,
 					SetCommand=function(self, params)
-						local underlay = SCREENMAN:GetTopScreen():GetChild("Underlay")
+						local layer = SCREENMAN:GetTopScreen():GetChild(targetLayer)
+
+						-- Hack so that this file doesn't have to be duplicated under ScreenSelectMusic overlay
+						if targetLayer == "Overlay" then
+							layer = layer:GetChild("ChangeProfiles")
+						end
+
 						if params and params.noteskin then
-							local noteskin = underlay:GetChild("NoteSkin_"..params.noteskin)
+							local noteskin = layer:GetChild("NoteSkin_"..params.noteskin)
 							if noteskin then
 								self:visible(true):SetTarget(noteskin)
 							else
@@ -281,16 +288,22 @@ return Def.ActorFrame{
 					Name="JudgmentGraphicPreview",
 					InitCommand=function(self) self:halign(0):zoom(0.315):xy(info.padding*2.5 + info.w*0.5, 48) end,
 					SetCommand=function(self, params)
-						local underlay = SCREENMAN:GetTopScreen():GetChild("Underlay")
+						local layer = SCREENMAN:GetTopScreen():GetChild(targetLayer)
+
+						-- Hack so that this file doesn't have to be duplicated under ScreenSelectMusic overlay
+						if targetLayer == "Overlay" then
+							layer = layer:GetChild("ChangeProfiles")
+						end
+
 						if params and params.judgment then
-							local judgment = underlay:GetChild("JudgmentGraphic_"..StripSpriteHints(params.judgment))
+							local judgment = layer:GetChild("JudgmentGraphic_"..StripSpriteHints(params.judgment))
 							if judgment then
 								self:SetTarget(judgment)
 							else
-								self:SetTarget(underlay:GetChild("JudgmentGraphic_None"))
+								self:SetTarget(layer:GetChild("JudgmentGraphic_None"))
 							end
 						else
-							self:SetTarget(underlay:GetChild("JudgmentGraphic_None"))
+							self:SetTarget(layer:GetChild("JudgmentGraphic_None"))
 						end
 					end
 				},
