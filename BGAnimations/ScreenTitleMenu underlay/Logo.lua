@@ -49,7 +49,7 @@ af[#af+1] = Def.Sprite{
 }
 
 
-if ThemePrefs.Get("VisualStyle") ~= "SRPG5" then
+if ThemePrefs.Get("VisualStyle") ~= "SRPG5" and ThemePrefs.Get("VisualStyle") ~= "Unicorn" then
 	-- decorative arrows for current game (dance, pump, techno, etc.)
 	af[#af+1] = LoadActor(resolved_path)..{
 		InitCommand=function(self)

@@ -13,6 +13,9 @@ function GetHexColor( n, decorative )
 	if style == "SRPG5" then
 		colorTable = SL.SRPG5.Colors
 	end
+	if style == "Unicorn" then
+		colorTable = SL.UNICORN.Colors
+	end
 
 	-- use the number passed in to lookup a color in the corresponding color table
 	-- ensure the index is kept in bounds via modulo operation
