@@ -113,8 +113,11 @@ local t = Def.ActorFrame {
                 -- set index to 0 if so to indicate that "[Guest]" was chosen (because it was the only choice)
                 local index = type(info)=="table" and info.index or 0
 
-                if index > 0 then
-                    -- TODO: Set the selected profile for the player
+                if index == 0 then
+                    GAMESTATE:UnjoinPlayer(player)
+                elseif index > 0 then
+                    -- in lua Guest profile is index 0, so we need to subtract 1 to get the actual index
+                    PROFILEMAN:SetLocalProfileForPlayer(player, index - 1)
                 end
             end
         end
@@ -122,7 +125,7 @@ local t = Def.ActorFrame {
         self:queuecommand("Cancel")
 
         -- reload the Select Music screen to make sure nothing breaks
-        -- SCREENMAN:SetNewScreen("ScreenSelectMusic")
+        SCREENMAN:SetNewScreen("ScreenSelectMusic")
     end,
 
     WhatMessageCommand=function(self)
