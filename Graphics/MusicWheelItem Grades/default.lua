@@ -17,24 +17,40 @@ end
 -- assign the "Grade_Failed" key a value equal to num_tiers
 grades["Grade_Failed"] = num_tiers
 
+if ThemePrefs.Get("VisualStyle") == "Unicorn" then
+	return Def.Sprite{
+		Texture=THEME:GetPathG("MusicWheelItem","Grades/U-grades 1x18.png"),
+		InitCommand=function(self) self:zoom( SL_WideScale(0.18, 0.3) ):animate(false) end,	
+		SetGradeCommand=function(self, params)
+			if not (params.Grade and grades[params.Grade]) then
+				self:visible(false)
+				return
+			end
 
-return Def.Sprite{
-	Texture=THEME:GetPathG("MusicWheelItem","Grades/grades 1x18.png"),
-	InitCommand=function(self) self:zoom( SL_WideScale(0.18, 0.3) ):animate(false) end,
-
-	-- "SetGrade" is broadcast by the engine in MusicWheelItem.cpp.
-	-- It will be passed a table with, at minimum, one parameter:
-	--     PlayerNumber (PlayerNumber enum as string)
-	--
-   -- and potentially two more if the current song/course and steps/trail have a non-null HighScoreList
-	--     Grade (GradeTier as number)
-	--     NumTimesPlayed (number)
-	SetGradeCommand=function(self, params)
-		if not (params.Grade and grades[params.Grade]) then
-			self:visible(false)
-			return
+			self:visible(true):setstate(grades[params.Grade])
 		end
+	}
+else 
+	return Def.Sprite{
+		Texture=THEME:GetPathG("MusicWheelItem","Grades/grades 1x18.png"),
+		InitCommand=function(self) self:zoom( SL_WideScale(0.18, 0.3) ):animate(false) end,
+		
+			
 
-		self:visible(true):setstate(grades[params.Grade])
-	end
-}
+		-- "SetGrade" is broadcast by the engine in MusicWheelItem.cpp.
+		-- It will be passed a table with, at minimum, one parameter:
+		--     PlayerNumber (PlayerNumber enum as string)
+		--
+	-- and potentially two more if the current song/course and steps/trail have a non-null HighScoreList
+		--     Grade (GradeTier as number)
+		--     NumTimesPlayed (number)
+		SetGradeCommand=function(self, params)
+			if not (params.Grade and grades[params.Grade]) then
+				self:visible(false)
+				return
+			end
+
+			self:visible(true):setstate(grades[params.Grade])
+		end
+	}
+end
