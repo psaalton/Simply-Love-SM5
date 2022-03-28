@@ -43,7 +43,7 @@ t[#t+1] = LoadActor(THEME:GetPathG("", "_grades/"..grade..".lua"), playerStats).
 }
 
 
-if ThemePrefs.Get("VisualStyle") == "Unicorn" then
+if ThemePrefs.Get("VisualStyle") == "Unicorn" and grade~="Grade_Failed" then
 	t[#t+1] = Def.Quad {
 		InitCommand=function(self)
 			self:diffuse(color("#101519")):zoomto(150, 30)
