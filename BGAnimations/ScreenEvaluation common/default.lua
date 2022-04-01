@@ -63,7 +63,9 @@ t[#t+1] = LoadActor("./Shared/CasualHelpText.lua")
 
 t[#t+1] = LoadActor("./SyncStartScores.lua")
 
-t[#t+1] = LoadActor("./SessionStatistics.lua")
+if ThemePrefs.Get("VisualStyle") ~= "Unicorn" then
+	t[#t+1] = LoadActor("./SessionStatistics.lua")
+end
 
 -- -----------------------------------------------------------------------
 -- Then, load player-specific actors.
