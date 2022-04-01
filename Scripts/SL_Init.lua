@@ -400,6 +400,21 @@ SL = {
 		Held=1,
 		HitMine=-1
 	},
+	ITGWeights = {
+		-- W0 is not necessarily a "real" window.
+		-- In ITG mode it is emulated based off the value of TimingWindowW1 defined
+		-- for FA+ mode.
+		W0=5,
+		W1=5,
+		W2=4,
+		W3=2,
+		W4=0,
+		W5=-6,
+		Miss=-12,
+		LetGo=0,
+		Held=5,
+		HitMine=-6
+	},
 	-- Fields used to determine the existence of the launcher and the
 	-- available GrooveStats services.
 	GrooveStats = {
