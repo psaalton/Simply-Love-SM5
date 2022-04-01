@@ -77,7 +77,7 @@ local GetPlayerToSetNotefieldFor = function()
 	end
 end
 
-local GetPlayerNotefieldPositionY = function(player)
+local GetPlayerNotefieldPositionYPercent = function(player)
 	if (player == PLAYER_1) then
 		return SL.P1.ActiveModifiers.NotefieldPositionY:gsub("%%", "") / 100
 	else
@@ -94,7 +94,7 @@ GetNotefieldY = function()
 		return minNotefieldYPos
 	end
 
-	local percent = GetPlayerNotefieldPositionY(currentPlayer)
+	local percent = GetPlayerNotefieldPositionYPercent(currentPlayer)
 
 	-- interpolate between min and max
 	return math.round(Lerp(minNotefieldYPos, maxNotefieldYPos, percent))
@@ -109,10 +109,23 @@ GetNotefieldYReverse = function()
 		return minNotefieldYPosReverse
 	end
 
-	local percent = GetPlayerNotefieldPositionY(currentPlayer)
+	local percent = GetPlayerNotefieldPositionYPercent(currentPlayer)
 
 	-- interpolate between min and max, take reverse into account
 	return math.round(Lerp(minNotefieldYPosReverse, maxNotefieldYPosReverse, percent))
+end
+
+GetNotefieldYForPlayer = function(player)
+	local playerOptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
+	local percent = GetPlayerNotefieldPositionYPercent(player)
+
+	-- if playing on reverse return the reverse position
+	if (playerOptions:UsingReverse()) then
+		return math.round(Lerp(minNotefieldYPosReverse, maxNotefieldYPosReverse, percent))
+	end
+
+	-- interpolate between min and max
+	return math.round(Lerp(minNotefieldYPos, maxNotefieldYPos, percent))
 end
 
 -- In the MarginFunction defined in the fallback theme, the positions of players' notefields affect each other.

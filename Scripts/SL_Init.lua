@@ -41,6 +41,8 @@ local PlayerDefaults = {
 				BackgroundBrightness="0%",
 				NotefieldPositionX = "50%",
 				NotefieldPositionY = "0%",
+				JudgementPositionX = "50%",
+				JudgementYOffset = "0px",
 				ShowFaPlusWindow = false,
 				ShowEXScore = false,
 			}
@@ -110,6 +112,7 @@ local GlobalDefaults = {
 				PlayerOptions  = "ScreenGameplay",
 				PlayerOptions2 = "ScreenGameplay",
 				PlayerOptions3 = "ScreenGameplay",
+				PlayerLayoutOptions = "ScreenGameplay"
 			}
 			self.ContinuesRemaining = ThemePrefs.Get("NumberOfContinuesAllowed") or 0
 			self.GameMode = ThemePrefs.Get("DefaultGameMode") or "ITG"

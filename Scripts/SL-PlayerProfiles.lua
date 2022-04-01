@@ -36,8 +36,6 @@ local permitted_profile_settings = {
 	HideDanger           = "boolean",
 	HideComboExplosions  = "boolean",
 
-	NotefieldPositionX   = "string",
-	NotefieldPositionY   = "string",
     LaneCover            = "string",
 	BackgroundBrightness = "string",
 	LifeMeterType        = "string",
@@ -59,6 +57,13 @@ local permitted_profile_settings = {
 	ErrorBar             = "string",
 	ErrorBarUp           = "boolean",
 	ErrorBarMultiTick    = "boolean",
+
+	----------------------------------
+	-- OptionRows that appear in Layout Options in PlayerOptions
+	NotefieldPositionX   = "string",
+	NotefieldPositionY   = "string",
+	JudgementPositionX   = "string",
+	JudgementYOffset     = "string",
 
 
 	----------------------------------
