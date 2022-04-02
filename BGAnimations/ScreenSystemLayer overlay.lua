@@ -188,7 +188,10 @@ t[#t+1] = LoadFont("Common Footer")..{
 		end
 
 		if PREFSMAN:GetPreference("EventMode") then
-			local text = ("Event Mode")
+			local text = ("%s %s"):format(
+				"Songs played: ",
+				SL.Global.Stages.PlayedThisGame
+			)
 			self:settext(text)
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then

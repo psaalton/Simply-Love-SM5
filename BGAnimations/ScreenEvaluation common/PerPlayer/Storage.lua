@@ -24,7 +24,6 @@ return Def.Actor{
 		-- see: http://quietly-turning.github.io/Lua-For-SM5/LuaAPI#Actors-PlayerStageStats
 		local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
 
-		storage.isRestart = false
 		storage.grade = pss:GetGrade()
 		storage.score = pss:GetPercentDancePoints()
 		storage.judgments = {

@@ -434,9 +434,7 @@ SL = {
 		-- *   updated to properly consume this value.  *
 		-- **********************************************
 		ChartHashVersion = 3
-	},
-	StageStartTime = 0,
-	RestartCounter = 0
+	}
 }
 
 
