@@ -19,24 +19,15 @@ for player in ivalues(Players) do
         end
     }
 
-    if stats.hours < 10 then
-        stats.hours = 0 .. stats.hours
-    end
-    if stats.minutes < 10 then
-        stats.minutes = 0 .. stats.minutes
-    end
-    if stats.notesHitThisGame > 9999 then
-        stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
-    end
-
     sessionStats[#sessionStats+1] = LoadFont("Common Normal").. {
         Name="Stats",
-        Text=("%s:%s\nSongs: %s\nNotes: %s\nRestart streak: %s \nTotal restarts: %s"):format(
+        Text=("Songs: %s\nNotes: %s\n%sh %sm %ss\nSong restarted: %s \nTotal restarts: %s"):format(
 
-        stats.hours,
-        stats.minutes,
         stats.songsPlayedThisGame,
         stats.notesHitThisGame, 
+        stats.hours,
+        stats.minutes,
+        stats.seconds,
         SL.RestartCounter,
         stats.restartCountThisGame
 
