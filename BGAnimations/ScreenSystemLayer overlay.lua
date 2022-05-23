@@ -177,7 +177,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 
 	RefreshCommand=function(self)
 		local screen = SCREENMAN:GetTopScreen()
-		
+
 		-- if this screen's Metric for ShowCreditDisplay=false, then hide this BitmapText actor
 		-- PS: "ShowCreditDisplay" isn't a real Metric as far as the engine is concerned.
 		-- I invented it for Simply Love and it has (understandably) confused other themers.
@@ -187,8 +187,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 		end
 
 		if PREFSMAN:GetPreference("EventMode") then
-			local text = ("Event Mode")
-			self:settext(text)
+			self:settext( THEME:GetString("ScreenSystemLayer", "EventMode") )
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then
 			local credits = GetCredits()
