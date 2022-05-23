@@ -107,51 +107,50 @@ for player in ivalues(PlayerNumber) do
 end
 
 -------------------------------------------------------------------------
-if ThemePrefs.Get("VisualStyle") ~= "Unicorn" then
-	for player in ivalues(PlayerNumber) do
-		local stats = SessionDataForStatistics(player)
-		local x_pos = player==PLAYER_1 and 60 or _screen.w-60
-		local x_quad_pos = player==PLAYER_1 and 50  or _screen.w-50
-		local h   = (player==PLAYER_1 and left or right)
-		local x   = (player==PLAYER_1 and _screen.w * 0.25 or _screen.w * 0.75)
 
-		t[#t+1] = LoadFont("Common Normal")..{
-			Name="Steps",
-			Text=(""),
-			
-			InitCommand=function(self)
-				self:zoom(0.9)
-				self:xy(x, _screen.h-16)
-			end,
+for player in ivalues(PlayerNumber) do
+	local stats = SessionDataForStatistics(player)
+	local x_pos = player==PLAYER_1 and 60 or _screen.w-60
+	local x_quad_pos = player==PLAYER_1 and 50  or _screen.w-50
+	local h   = (player==PLAYER_1 and left or right)
+	local x   = (player==PLAYER_1 and _screen.w * 0.25 or _screen.w * 0.75)
 
-			ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+	t[#t+1] = LoadFont("Common Normal")..{
+		Name="Steps",
+		Text=(""),
+		
+		InitCommand=function(self)
+			self:zoom(0.9)
+			self:xy(x, _screen.h-16)
+		end,
 
-			RefreshCommand=function(self)
-				local screen = SCREENMAN:GetTopScreen()
-				local screenName = screen:GetName()
-				stats = SessionDataForStatistics(player)
-				if screen and GAMESTATE:IsHumanPlayer(player) then
-					if stats.hours < 10 then
-						stats.hours = 0 .. stats.hours
-					end
-					if stats.minutes < 10 then
-						stats.minutes = 0 .. stats.minutes
-					end
-					if stats.notesHitThisGame > 9999 then
-						stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
-					end
-					self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
-					self:settext(("Songs: %s - %s:%s - Notes: %s"):format(
-						stats.songsPlayedThisGame,
-						stats.hours,
-						stats.minutes,
-						stats.notesHitThisGame))
-				else  
-					self:visible( false )
+		ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+
+		RefreshCommand=function(self)
+			local screen = SCREENMAN:GetTopScreen()
+			local screenName = screen:GetName()
+			stats = SessionDataForStatistics(player)
+			if screen and GAMESTATE:IsHumanPlayer(player) then
+				if stats.hours < 10 then
+					stats.hours = 0 .. stats.hours
 				end
-			end	
-		}
-	end
+				if stats.minutes < 10 then
+					stats.minutes = 0 .. stats.minutes
+				end
+				if stats.notesHitThisGame > 9999 then
+					stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
+				end
+				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
+				self:settext(("Songs: %s - %s:%s - Notes: %s"):format(
+					stats.songsPlayedThisGame,
+					stats.hours,
+					stats.minutes,
+					stats.notesHitThisGame))
+			else  
+				self:visible( false )
+			end
+		end	
+	}
 end
 
 
