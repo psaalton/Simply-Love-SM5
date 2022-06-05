@@ -1,3 +1,5 @@
+This is iterated GAY theme by Renbrandt. It is based loosely on Gay visuals, here is its readme:
+
 Gay visual assets were originally created by quietly-turning.
 (I guess?  I just hastily overlaid text on top of the assets
 from Love's VisualStyle.)
