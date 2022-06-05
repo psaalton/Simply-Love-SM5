@@ -9,7 +9,8 @@ local songs = {
 	Stars  = "Shooting Star - faux VRC6 remix",
 	Thonk  = "Da Box of Kardboard Too (feat Naoki vs ZigZag) - TaroNuke Remix",
 	SRPG5  = "Free Will",
-	Unicorn = "Unicorn"
+	Unicorn = "Unicorn",
+	Pride = "Pride"
 }
 
 -- retrieve the current VisualStyle from the ThemePrefs system

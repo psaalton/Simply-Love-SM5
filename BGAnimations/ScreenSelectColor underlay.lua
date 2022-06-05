@@ -15,9 +15,14 @@ end
 if (style == "Unicorn") then
 	colorTable = SL.UNICORN.Colors
 end
-local factionBmt
 
 local text
+if (style == "Pride") then
+	colorTable = SL.PRIDE.Colors
+	text = { "I'm gay", "we're gay", "proud", "queer", "Oon homo", "Olemme homoja", "I'm gonna bi ok", "Ylypee" }
+end
+local factionBmt
+
 if style == "Gay" then
 	text = { "I'm gay", "we're gay", "proud", "queer" }
 end
@@ -68,7 +73,7 @@ local wheel_item_mt = {
 				Name=name,
 				InitCommand=function(subself)
 					self.container = subself
-					if style=="Gay" and not HolidayCheer() then
+					if style == "Gay" or style == "Pride" and not HolidayCheer() then
 						subself:bob():effectmagnitude(0,0,0):effectclock('bgm'):effectperiod(0.666)
 					end
 				end,
@@ -96,7 +101,7 @@ local wheel_item_mt = {
 				end,
 			}
 
-			if style == "Gay" then
+			if style == "Gay" or style == "Pride" then
 				af[#af+1] = Def.BitmapText{
 					Font="Common Normal",
 					InitCommand=function(subself)
@@ -141,7 +146,7 @@ local wheel_item_mt = {
 				self.container:zoom( zoom )
 			end
 
-			if style=="Gay" and item_index == (IsUsingWideScreen() and 6 or 4) then
+			if style == "Gay" or style == "Pride"  and item_index == (IsUsingWideScreen() and 6 or 4) then
 				self.container:effectmagnitude(0,4,0)
 			else
 				self.container:effectmagnitude(0,0,0)
@@ -157,7 +162,7 @@ local wheel_item_mt = {
 			if not color then return end
 			self.color = color
 			self.color_index = FindInTable(color, colorTable)
-			if style=="Gay" and type(text)=="table" then
+			if style == "Gay" or style == "Pride"  and type(text)=="table" then
 				self.text:settext(text[(self.color_index - (SL.Global.ActiveColorIndex-(#text-1))) % #text + 1])
 			end
 		end

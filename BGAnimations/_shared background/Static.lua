@@ -45,6 +45,7 @@ local sprite = Def.Sprite {
 		local style = ThemePrefs.Get("VisualStyle")
 		self:visible(style == "SRPG5")
 		self:visible(style == "Unicorn")
+		self:visible(style == "Pride")
 		-- Used to prevent unnecessary self:Loads()
 		self.IsYellow = true
 	end,
@@ -52,10 +53,16 @@ local sprite = Def.Sprite {
 	ScreenChangedMessageCommand=function(self)
 		local screen = SCREENMAN:GetTopScreen()
 		local style = ThemePrefs.Get("VisualStyle")
-		if style == "SRPG5" or style == "Unicorn" then
-			if screen and not yellowSrpg[screen:GetName()] and self.IsYellow then
-				self:Load(THEME:GetPathG("", "_VisualStyles/" .. style .. "/Overlay-BG.png"))
+		if style == "SRPG5" or style == "Unicorn" or style == "Pride" then
+			if style == "Pride" then
+				self:Load(THEME:GetPathG("", "_VisualStyles/" .. style .. "/OV.mp4"))
 				self.IsYellow = false
+				self:zoomto(_screen.w, _screen.h)
+			else 				
+				if screen and not yellowSrpg[screen:GetName()] and self.IsYellow then
+					self:Load(THEME:GetPathG("", "_VisualStyles/" .. style .. "/Overlay-BG.png"))
+					self.IsYellow = false
+				end
 			end
 
 			if screen and yellowSrpg[screen:GetName()] and not self.IsYellow then
@@ -66,12 +73,15 @@ local sprite = Def.Sprite {
 	end,
 	VisualStyleSelectedMessageCommand=function(self)
 		local style = ThemePrefs.Get("VisualStyle")
-
+		if style == "Pride" then
+			local new_file = THEME:GetPathG("", "_VisualStyles/" .. style .. "/OV.mp4")
+		else
 		local new_file = THEME:GetPathG("", "_VisualStyles/" .. style .. "/SharedBackground.png")
+		end
 		self:Load(new_file)
 		self:zoomto(_screen.w, _screen.h)
 
-		if style == "SRPG5" or style == "Unicorn" then
+		if style == "SRPG5" or style == "Unicorn" or style == "Pride" then
 			self:visible(true)
 		else
 			self:visible(false)

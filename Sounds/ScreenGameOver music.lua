@@ -9,4 +9,8 @@ if style == "Unicorn" then
 	audio_file = "PikkuKakkonen.ogg"
 end
 
+if style == "Pride" then
+	audio_file = "dontstop.mp3"
+end
+
 return THEME:GetPathS("", audio_file)
