@@ -1,3 +1,6 @@
+-- base size of notes in internal resolution, without mini%
+BaseNoteSizePixels = 64
+
 -- linear interpolation between value1 and value2
 Lerp = function(value1, value2, percent)
 	return value1 * (1 - percent) + value2 * percent
@@ -5,11 +8,12 @@ end
 
 -- used in theme metrics that are fetched by SLGameplayMargins
 GetPlayer1NotefieldX = function()
-	local percent = SL.P1.ActiveModifiers.NotefieldPositionX:gsub("%%","") / 100
+	local mini = SL.P1.ActiveModifiers.Mini:gsub("%%", "") / 100
+	local percent = SL.P1.ActiveModifiers.NotefieldPositionX:gsub("%%", "") / 100
 	local halfNotefieldWidth = GetNotefieldWidth(PLAYER_1) / 2
 
 	-- player1 min X pos is left edge of screen plus notefield size offset
-	local minXPosition = halfNotefieldWidth
+	local minXPosition = halfNotefieldWidth - (mini * BaseNoteSizePixels)
 	-- player1 max X pos is center of screen minus notefield size offset
 	local maxXPosition = _screen.cx - halfNotefieldWidth
 
@@ -19,13 +23,15 @@ end
 
 -- used in theme metrics that are fetched by SLGameplayMargins
 GetPlayer2NotefieldX = function()
-	local percent = SL.P2.ActiveModifiers.NotefieldPositionX:gsub("%%","") / 100
+	local mini = SL.P2.ActiveModifiers.Mini:gsub("%%", "") / 100
+	local percent = SL.P2.ActiveModifiers.NotefieldPositionX:gsub("%%", "") / 100
 	local halfNotefieldWidth = GetNotefieldWidth(PLAYER_2) / 2
 
-	-- player2 min X pos is center of screen plus notefield size offset
-	local minXPosition = _screen.cx + halfNotefieldWidth
-	-- player2 max X pos is right edge of screen minus notefield size offset
-	local maxXPosition = _screen.w - halfNotefieldWidth
+	-- player2 min X pos is right edge of screen minus notefield size offset
+	local minXPosition = _screen.w - halfNotefieldWidth + (mini * BaseNoteSizePixels)
+
+	-- player2 max X pos is center of screen plus notefield size offset
+	local maxXPosition = _screen.cx + halfNotefieldWidth
 
 	-- interpolate between min and max
 	return math.round(Lerp(minXPosition, maxXPosition, percent))
@@ -73,9 +79,9 @@ end
 
 local GetPlayerNotefieldPositionY = function(player)
 	if (player == PLAYER_1) then
-		return SL.P1.ActiveModifiers.NotefieldPositionY:gsub("%%","") / 100
+		return SL.P1.ActiveModifiers.NotefieldPositionY:gsub("%%", "") / 100
 	else
-		return SL.P2.ActiveModifiers.NotefieldPositionY:gsub("%%","") / 100
+		return SL.P2.ActiveModifiers.NotefieldPositionY:gsub("%%", "") / 100
 	end
 end
 
