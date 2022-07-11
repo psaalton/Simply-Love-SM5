@@ -61,6 +61,8 @@ t[#t+1] = LoadActor("./Shared/GlobalStorage.lua")
 -- help text that appears if we're in Casual gamemode
 t[#t+1] = LoadActor("./Shared/CasualHelpText.lua")
 
+t[#t+1] = LoadActor("./SessionStatistics.lua")
+
 -- -----------------------------------------------------------------------
 -- Then, load player-specific actors.
 
