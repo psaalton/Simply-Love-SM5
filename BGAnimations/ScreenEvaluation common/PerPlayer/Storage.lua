@@ -30,6 +30,7 @@ return Def.Actor{
 			storage.profile = '[GUEST]'
 		end
 
+		storage.isRestart = false
 		storage.grade = pss:GetGrade()
 		storage.score = pss:GetPercentDancePoints()
 		storage.judgments = {

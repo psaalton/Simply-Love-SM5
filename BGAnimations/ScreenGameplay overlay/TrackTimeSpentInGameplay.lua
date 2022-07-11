@@ -8,14 +8,13 @@
 ------------------------------------------------------------
 
 local player = ...
-local start_time
 
 local actor = Def.Actor{
 	OnCommand=function(self)
-		start_time = GetTimeSinceStart()
+		SL.StageStartTime = GetTimeSinceStart()
 	end,
 	OffCommand=function(self)
-		SL[ToEnumShortString(player)].Stages.Stats[SL.Global.Stages.PlayedThisGame + 1].duration = GetTimeSinceStart() - start_time
+		SL[ToEnumShortString(player)].Stages.Stats[SL.Global.Stages.PlayedThisGame + 1].duration = GetTimeSinceStart() - SL.StageStartTime
 	end
 }
 
