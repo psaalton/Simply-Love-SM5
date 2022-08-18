@@ -389,16 +389,16 @@ SL = {
 		-- W0 is not necessarily a "real" window.
 		-- In ITG mode it is emulated based off the value of TimingWindowW1 defined
 		-- for FA+ mode.
-		W0=3.5,
-		W1=3,
-		W2=2,
-		W3=1,
+		W0=5,
+		W1=5,
+		W2=4,
+		W3=2,
 		W4=0,
-		W5=0,
-		Miss=0,
+		W5=-6,
+		Miss=-12,
 		LetGo=0,
-		Held=1,
-		HitMine=-1
+		Held=5,
+		HitMine=-6
 	},
 	ITGWeights = {
 		-- W0 is not necessarily a "real" window.
