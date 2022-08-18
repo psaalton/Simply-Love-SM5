@@ -71,7 +71,7 @@ for index, label in ipairs(RadarCategories) do
 	-- We have a separate FA+ pane for ITG mode.
 	if index == 1 and SL.Global.GameMode == "FA+" then
 		t[#t+1] = LoadFont("Wendy/_wendy small")..{
-			Text="EX",
+			Text="ITG",
 			InitCommand=function(self) self:zoom(0.5):horizalign(right) end,
 			BeginCommand=function(self)
 				self:x( (controller == PLAYER_1 and -160) or 90 )
