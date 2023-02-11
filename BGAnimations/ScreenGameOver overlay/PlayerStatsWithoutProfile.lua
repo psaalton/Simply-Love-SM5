@@ -37,7 +37,7 @@ local lines = {
 	ScreenString("SongsPlayedThisGame") .. "\n" .. songsPlayedThisGame,
 	ScreenString("NotesHitThisGame") .. "\n" .. notesHitThisGame,
 	ScreenString("TimeSpentThisGame") .. "\n" .. minutes .. THEME:GetString("ScreenGameOver", "Minutes") .. " " .. seconds .. THEME:GetString("ScreenGameOver", "Seconds"),
-	ScreenString("RestartCountThisGame") .. "\n" restartCountThisGame
+	ScreenString("RestartCountThisGame") .. "\n" .. restartCountThisGame,
 }
 
 -- assume above that the gameplay session was < 1 hour, but check now
