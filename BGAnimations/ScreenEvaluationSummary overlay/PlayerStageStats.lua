@@ -157,7 +157,7 @@ for i=1,#TNSTypes do
 				:diffuse( SL.JudgmentColors[SL.Global.GameMode][i] )
 		end,
 		DrawStageCommand=function(self, params)
-			if playerStats and playerStats.judgments then
+			if playerStats and playerStats.judgments and not playerStats == nil  then
 				local val = playerStats.judgments[TNSTypes[i]]
 				if val then self:settext(val) end
 
