@@ -47,8 +47,10 @@ local judgmentToTrim = {
 
 local enabledTimingWindows = {}
 for i = 1, NumJudgmentsAvailable() do
-    if mods.TimingWindows[i] then
-        enabledTimingWindows[#enabledTimingWindows+1] = i
+    if gmods.TimingWindows[i] then
+        if not judgmentToTrim["TapNoteScore_W" .. tostring(i)] then
+            enabledTimingWindows[#enabledTimingWindows + 1] = i
+        end
     end
 end
 
