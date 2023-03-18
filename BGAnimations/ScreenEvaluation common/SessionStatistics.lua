@@ -13,7 +13,7 @@ for player in ivalues(Players) do
 
     sessionStats[#sessionStats+1] = Def.Quad {
         InitCommand=function(self)
-            self:diffuse(color("#101519")):zoomto(150, 90)
+            self:diffuse(color("#101519")):zoomto(150, 60)
             self:y(y_quad_pos)
             self:x(x_quad_pos)
         end
@@ -31,19 +31,17 @@ for player in ivalues(Players) do
 
     sessionStats[#sessionStats+1] = LoadFont("Common Normal").. {
         Name="Stats",
-        Text=("%s:%s\nSongs: %s\nNotes: %s\nRestart streak: %s \nTotal restarts: %s"):format(
+        Text=("%s:%s\nSongs: %s\nNotes: %s"):format(
 
         stats.hours,
         stats.minutes,
         stats.songsPlayedThisGame,
-        stats.notesHitThisGame, 
-        SL.RestartCounter,
-        stats.restartCountThisGame
+        stats.notesHitThisGame
 
         ), 
         
         InitCommand=function(self)
-            self:zoom(0.75)
+            self:zoom(0.8)
             self:y(y_pos)
             self:x(x_pos)
         end

@@ -467,7 +467,6 @@ SL = {
 	--    ErrorMessage: string, the reasoning for the failure.
 	Downloads = {},
 	StageStartTime = 0,
-	RestartCounter = 0
 }
 
 

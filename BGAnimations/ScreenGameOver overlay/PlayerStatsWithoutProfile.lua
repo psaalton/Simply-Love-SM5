@@ -3,15 +3,13 @@ local player = ...
 local totalTime = 0
 local songsPlayedThisGame = 0
 local notesHitThisGame = 0
-local restartCountThisGame = 0
 
 -- Use pairs here (instead of ipairs) because this player might have late-joined
 -- which will result in nil entries in the the Stats table, which halts ipairs.
 -- We're just summing total time anyway, so order doesn't matter.
 for i,stats in pairs( SL[ToEnumShortString(player)].Stages.Stats ) do
 	totalTime = totalTime + (stats and stats.duration or 0)
-	songsPlayedThisGame = songsPlayedThisGame + (stats and not stats.isRestart and 1 or 0)
-	restartCountThisGame = restartCountThisGame + (stats and stats.isRestart and 1 or 0)
+	songsPlayedThisGame = songsPlayedThisGame + (stats and 1 or 0)
 
 	if stats and stats.judgments and not stats == nil and not stats.judgements == nil then
 
@@ -38,7 +36,6 @@ local lines = {
 	ScreenString("SongsPlayedThisGame") .. "\n" .. songsPlayedThisGame,
 	ScreenString("NotesHitThisGame") .. "\n" .. notesHitThisGame,
 	ScreenString("TimeSpentThisGame") .. "\n" .. minutes .. THEME:GetString("ScreenGameOver", "Minutes") .. " " .. seconds .. THEME:GetString("ScreenGameOver", "Seconds"),
-	ScreenString("RestartCountThisGame") .. "\n" .. restartCountThisGame,
 }
 
 -- assume above that the gameplay session was < 1 hour, but check now
