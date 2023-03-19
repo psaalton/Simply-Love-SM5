@@ -112,7 +112,7 @@ end
 for player in ivalues(PlayerNumber) do
 	local stats = SessionDataForStatistics(player)
 	local h   = (player==PLAYER_1 and left or right)
-	local x   = (player==PLAYER_1 and _screen.w * 0.15 or _screen.w * 0.85)
+	local x   = (player==PLAYER_1 and _screen.w * 0.17 or _screen.w * 0.83)
 
 	t[#t+1] = LoadFont("Common Normal")..{
         Name="Steps",
@@ -141,13 +141,13 @@ for player in ivalues(PlayerNumber) do
 				end
 				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
 				if player == PLAYER_1 then
-					self:settext(("💿 %s | ⏱%s:%s | 👟 %s"):format(
+					self:settext(("| 💿 %s | ⏱%s:%s | 👟 %s "):format(
 						stats.songsPlayedThisGame,
 						stats.hours,
 						stats.minutes,
 						stats.notesHitThisGame))
 				else 
-					self:settext(("%s 👟 | %s:%s⏱ | %s 💿"):format(
+					self:settext((" %s 👟 | %s:%s⏱ | %s 💿 |"):format(
 						stats.notesHitThisGame,
 						stats.hours,
 						stats.minutes,
