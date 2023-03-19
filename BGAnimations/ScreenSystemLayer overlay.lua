@@ -178,7 +178,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 		local screen = SCREENMAN:GetTopScreen()
 
 		-- if this screen's Metric for ShowCreditDisplay=false, then hide this BitmapText actor
-		-- PS: "Sho	wCreditDisplay" isn't a real Metric as far as the engine is concerned.
+		-- PS: "ShowCreditDisplay" isn't a real Metric as far as the engine is concerned.
 		-- I invented it for Simply Love and it has (understandably) confused other themers.
 		-- Sorry about this.
 		if screen then
