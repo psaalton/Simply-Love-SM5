@@ -111,8 +111,6 @@ end
 
 for player in ivalues(PlayerNumber) do
 	local stats = SessionDataForStatistics(player)
-    local x_pos = player==PLAYER_1 and 60 or _screen.w-60
-    local x_quad_pos = player==PLAYER_1 and 50  or _screen.w-50
 	local h   = (player==PLAYER_1 and left or right)
 	local x   = (player==PLAYER_1 and _screen.w * 0.25 or _screen.w * 0.75)
 
@@ -142,7 +140,7 @@ for player in ivalues(PlayerNumber) do
 					stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
 				end
 				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
-				self:settext(("Songs: %s - %s:%s - Notes: %s"):format(
+				self:settext(("💿x %s ⏱%s:%s 👟x %s"):format(
 					stats.songsPlayedThisGame,
 					stats.hours,
 					stats.minutes,
@@ -180,7 +178,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 		local screen = SCREENMAN:GetTopScreen()
 
 		-- if this screen's Metric for ShowCreditDisplay=false, then hide this BitmapText actor
-		-- PS: "ShowCreditDisplay" isn't a real Metric as far as the engine is concerned.
+		-- PS: "Sho	wCreditDisplay" isn't a real Metric as far as the engine is concerned.
 		-- I invented it for Simply Love and it has (understandably) confused other themers.
 		-- Sorry about this.
 		if screen then
@@ -188,10 +186,13 @@ t[#t+1] = LoadFont("Common Footer")..{
 		end
 
 		if PREFSMAN:GetPreference("EventMode") then
-			local text = ("%s %s"):format(
-				"Songs played: ",
-				SL.Global.Stages.PlayedThisGame
-			)
+			local text = ("Event mode")
+			if SL.Global.Stages.PlayedThisGame > 0 then 
+				text = ("%s %s"):format(
+					"Songs played: ",
+					SL.Global.Stages.PlayedThisGame
+				)
+			end
 			self:settext(text)
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then
