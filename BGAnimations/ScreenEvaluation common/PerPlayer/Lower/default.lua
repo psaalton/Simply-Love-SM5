@@ -50,15 +50,15 @@ af[#af+1] = Def.Quad{
 }
 
 local h   = (player==PLAYER_1 and left or right)
-local x   = (player==PLAYER_1 and _screen.w * -0.26 or _screen.w * 0.23)
+local h_reverse   = (player==PLAYER_1 and right or left)
+local x   = (player==PLAYER_1 and _screen.w * -0.18 or _screen.w * 0.18)
 
 af[#af+1] = LoadFont("Common Normal").. {
 	Name="Steps",
     Text=(""),
 
 	InitCommand=function(self)
-		self:zoom(0.5)
-		self:xy(x, _screen.h-40)
+		self:xy(x, _screen.h-65):horizalign(h_reverse)
 	end,
 
 	ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
@@ -75,11 +75,20 @@ af[#af+1] = LoadFont("Common Normal").. {
 			if stats.notesHitThisGame > 9999 then
 				stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
 			end
-			self:settext(("💿x %s ⏱%s:%s 👟x %s"):format(
-				stats.songsPlayedThisGame,
+
+			if player==PLAYER_1 then 
+			self:settext(("%s 👟\n%s:%s ⏱\n%s 💿"):format(
+				stats.notesHitThisGame,
 				stats.hours,
 				stats.minutes,
-				stats.notesHitThisGame))
+				stats.songsPlayedThisGame))
+			else 
+			self:settext(("👟 %s \n⏱ %s:%s\n💿 %s"):format(
+				stats.notesHitThisGame,
+				stats.hours,
+				stats.minutes,
+				stats.songsPlayedThisGame))
+			end
 		end	
 	
 }

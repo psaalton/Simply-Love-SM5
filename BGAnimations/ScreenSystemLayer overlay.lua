@@ -112,7 +112,7 @@ end
 for player in ivalues(PlayerNumber) do
 	local stats = SessionDataForStatistics(player)
 	local h   = (player==PLAYER_1 and left or right)
-	local x   = (player==PLAYER_1 and _screen.w * 0.25 or _screen.w * 0.75)
+	local x   = (player==PLAYER_1 and _screen.w * 0.15 or _screen.w * 0.85)
 
 	t[#t+1] = LoadFont("Common Normal")..{
         Name="Steps",
@@ -120,7 +120,7 @@ for player in ivalues(PlayerNumber) do
         
         InitCommand=function(self)
             self:zoom(0.9)
-			self:xy(x, _screen.h-16)
+			self:xy(x, _screen.h-16):horizalign(h)
         end,
 
 		ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
@@ -140,11 +140,19 @@ for player in ivalues(PlayerNumber) do
 					stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
 				end
 				self:visible( THEME:GetMetric( screen:GetName(), "ShowCreditDisplay" ) )
-				self:settext(("💿x %s ⏱%s:%s 👟x %s"):format(
-					stats.songsPlayedThisGame,
-					stats.hours,
-					stats.minutes,
-					stats.notesHitThisGame))
+				if player == PLAYER_1 then
+					self:settext(("💿 %s | ⏱%s:%s | 👟 %s"):format(
+						stats.songsPlayedThisGame,
+						stats.hours,
+						stats.minutes,
+						stats.notesHitThisGame))
+				else 
+					self:settext(("%s 👟 | %s:%s⏱ | %s 💿"):format(
+						stats.notesHitThisGame,
+						stats.hours,
+						stats.minutes,
+						stats.songsPlayedThisGame))
+				end
 			else  
 				self:visible( false )
 			end
@@ -187,12 +195,6 @@ t[#t+1] = LoadFont("Common Footer")..{
 
 		if PREFSMAN:GetPreference("EventMode") then
 			local text = ("Event mode")
-			if SL.Global.Stages.PlayedThisGame > 0 then 
-				text = ("%s %s"):format(
-					"Songs played: ",
-					SL.Global.Stages.PlayedThisGame
-				)
-			end
 			self:settext(text)
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then
