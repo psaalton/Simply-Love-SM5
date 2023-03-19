@@ -4,8 +4,6 @@ local player = ...
 local NumPlayers = #GAMESTATE:GetHumanPlayers()
 
 local stats = SessionDataForStatistics(player)
-local h   = (player==PLAYER_1 and left or right)
-local x   = (player==PLAYER_1 and _screen.w * -0.04 or _screen.w * 0.04)
 
 local pane_spacing = 10
 local small_pane_w = 300
@@ -51,13 +49,16 @@ af[#af+1] = Def.Quad{
 	end
 }
 
+local h   = (player==PLAYER_1 and left or right)
+local x   = (player==PLAYER_1 and _screen.w * -0.26 or _screen.w * 0.23)
+
 af[#af+1] = LoadFont("Common Normal").. {
 	Name="Steps",
     Text=(""),
 
 	InitCommand=function(self)
-		self:zoom(0.9)
-		self:xy(x, _screen.h-15)
+		self:zoom(0.5)
+		self:xy(x, _screen.h-40)
 	end,
 
 	ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
