@@ -51,47 +51,49 @@ af[#af+1] = Def.Quad{
 
 local h   = (player==PLAYER_1 and left or right)
 local h_reverse   = (player==PLAYER_1 and right or left)
-local x   = (player==PLAYER_1 and _screen.w * -0.18 or _screen.w * 0.18)
+local x   = (player==PLAYER_1 and -small_pane_w * 0.5 or small_pane_w * 0.5)
 
-af[#af+1] = LoadFont("Common Normal").. {
-	Name="Steps",
-    Text=(""),
+if IsUsingWideScreen() then 
+	af[#af+1] = LoadFont("Common Normal").. {
+		Name="Steps",
+		Text=(""),
 
-	InitCommand=function(self)
-		self:xy(x, _screen.h-65):horizalign(h_reverse)
-	end,
+		InitCommand=function(self)
+			self:xy(x, _screen.h-65):horizalign(h_reverse)
+		end,
 
-	ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+		ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
-		RefreshCommand=function(self)
-			stats = SessionDataForStatistics(player)
+			RefreshCommand=function(self)
+				stats = SessionDataForStatistics(player)
 
-			if stats.hours < 10 then
-				stats.hours = 0 .. stats.hours
-			end
-			if stats.minutes < 10 then
-				stats.minutes = 0 .. stats.minutes
-			end
-			if stats.notesHitThisGame > 9999 then
-				stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
-			end
+				if stats.hours < 10 then
+					stats.hours = 0 .. stats.hours
+				end
+				if stats.minutes < 10 then
+					stats.minutes = 0 .. stats.minutes
+				end
+				if stats.notesHitThisGame > 9999 then
+					stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
+				end
 
-			if player==PLAYER_1 then 
-			self:settext(("%s 👟\n%s:%s ⏱\n%s 💿"):format(
-				stats.notesHitThisGame,
-				stats.hours,
-				stats.minutes,
-				stats.songsPlayedThisGame))
-			else 
-			self:settext(("👟 %s \n⏱ %s:%s\n💿 %s"):format(
-				stats.notesHitThisGame,
-				stats.hours,
-				stats.minutes,
-				stats.songsPlayedThisGame))
-			end
-		end	
-	
-}
+				if player==PLAYER_1 then 
+				self:settext(("%s 👟\n%s:%s ⏱\n%s 💿"):format(
+					stats.notesHitThisGame,
+					stats.hours,
+					stats.minutes,
+					stats.songsPlayedThisGame))
+				else 
+				self:settext(("👟 %s \n⏱ %s:%s\n💿 %s"):format(
+					stats.notesHitThisGame,
+					stats.hours,
+					stats.minutes,
+					stats.songsPlayedThisGame))
+				end
+			end	
+		
+	}
+end
 	
 -- "Look at this graph."  –Some sort of meme on The Internet
 af[#af+1] = LoadActor("./Graphs.lua", player)

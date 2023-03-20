@@ -23,11 +23,45 @@ local function CreditsText( player )
 		VisualStyleSelectedMessageCommand=function(self) self:playcommand("UpdateVisible") end,
 		UpdateTextCommand=function(self)
 			-- this feels like a holdover from SM3.9 that just never got updated
+			local screen = SCREENMAN:GetTopScreen()
+			local stats = SessionDataForStatistics(player)
 			local str = ScreenSystemLayerHelpers.GetCreditsMessage(player)
-			self:settext(str)
+
+			if stats.hours < 10 then
+				stats.hours = 0 .. stats.hours
+			end
+			if stats.minutes < 10 then
+				stats.minutes = 0 .. stats.minutes
+			end
+			if stats.notesHitThisGame > 9999 then
+				stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
+			end
+			
+			if not IsUsingWideScreen() then 
+				self:settext(str)
+			else 
+				if player == PLAYER_1 and stats.songsPlayedThisGame > 0 and not (screen:GetName() == "ScreenEvaluationStage") then
+					self:settext(("%s - 💿 %s | ⏱%s:%s | 👟 %s "):format(
+						str,
+						stats.songsPlayedThisGame,	
+						stats.hours,
+						stats.minutes,
+						stats.notesHitThisGame))
+				elseif player == PLAYER_2 and stats.songsPlayedThisGame > 0 and not (screen:GetName() == "ScreenEvaluationStage") then
+					self:settext((" %s 👟 | %s:%s⏱ | %s 💿 - %s"):format(
+						stats.notesHitThisGame,
+						stats.hours,
+						stats.minutes,
+						stats.songsPlayedThisGame,
+						str))
+				else
+					self:settext(str)
+				end
+			end
+
 		end,
 		UpdateVisibleCommand=function(self)
-			local screen = SCREENMAN:GetTopScreen()
+			screen = SCREENMAN:GetTopScreen()
 			local bShow = true
 
 			local textColor = Color.White
@@ -108,7 +142,7 @@ for player in ivalues(PlayerNumber) do
 end
 
 -------------------------------------------------------------------------
-
+--[[ 
 for player in ivalues(PlayerNumber) do
 	local stats = SessionDataForStatistics(player)
 	local h   = (player==PLAYER_1 and left or right)
@@ -159,7 +193,7 @@ for player in ivalues(PlayerNumber) do
 		end	
     }
 end
-
+ ]]
 
 
 
