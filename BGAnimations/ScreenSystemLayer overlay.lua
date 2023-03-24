@@ -24,30 +24,33 @@ local function CreditsText( player )
 		UpdateTextCommand=function(self)
 			-- this feels like a holdover from SM3.9 that just never got updated
 			local screen = SCREENMAN:GetTopScreen()
-			local stats = SessionDataForStatistics(player)
 			local str = ScreenSystemLayerHelpers.GetCreditsMessage(player)
-
-			if stats.hours < 10 then
-				stats.hours = 0 .. stats.hours
-			end
-			if stats.minutes < 10 then
-				stats.minutes = 0 .. stats.minutes
-			end
-			if stats.notesHitThisGame > 9999 then
-				stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
-			end
+			local stats = SessionDataForStatistics(player)			
 			
 			if not IsUsingWideScreen() then 
 				self:settext(str)
 			else 
-				if player == PLAYER_1 and stats.songsPlayedThisGame > 0 and not (screen:GetName() == "ScreenEvaluationStage") then
+				
+				if stats.hours < 10 then
+					stats.hours = 0 .. stats.hours
+				end
+				if stats.minutes < 10 then
+					stats.minutes = 0 .. stats.minutes
+				end
+				if stats.notesHitThisGame > 9999 then
+					stats.notesHitThisGame = tonumber(string.format("%.1f", stats.notesHitThisGame/1000)) .. "k"
+				end
+
+				if (screen:GetName() == "ScreenEvaluationStage") or (screen:GetName() == "ScreenEvaluationNonstop") then
+					self:settext(str)
+				elseif player == PLAYER_1 and stats.songsPlayedThisGame > 0 then
 					self:settext(("%s - 💿 %s | ⏱%s:%s | 👟 %s "):format(
 						str,
 						stats.songsPlayedThisGame,	
 						stats.hours,
 						stats.minutes,
 						stats.notesHitThisGame))
-				elseif player == PLAYER_2 and stats.songsPlayedThisGame > 0 and not (screen:GetName() == "ScreenEvaluationStage") then
+				elseif player == PLAYER_2 and stats.songsPlayedThisGame > 0 then
 					self:settext((" %s 👟 | %s:%s⏱ | %s 💿 - %s"):format(
 						stats.notesHitThisGame,
 						stats.hours,
