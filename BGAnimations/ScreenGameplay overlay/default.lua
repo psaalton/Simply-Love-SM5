@@ -20,6 +20,7 @@ local af = Def.ActorFrame{}
 
 af[#af+1] = LoadActor("./WhoIsCurrentlyWinning.lua")
 af[#af+1] = LoadActor("./FailOnHoldStart.lua")
+af[#af+1] = LoadActor("./RestartSongCommand.lua")
 
 for player in ivalues( GAMESTATE:GetHumanPlayers() ) do
 
@@ -35,7 +36,7 @@ for player in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	-- Sadly, the full details of this Stages.Stats[stage_index] data structure
 	-- is not documented anywhere. :(
 	SL[pn].Stages.Stats[SL.Global.Stages.PlayedThisGame+1] = {}
-
+	
 	af[#af+1] = LoadActor("./TrackTimeSpentInGameplay.lua", player)
 	af[#af+1] = LoadActor("./JudgmentOffsetTracking.lua", player)
 	af[#af+1] = LoadActor("./TrackExScoreJudgments.lua", player)
@@ -44,6 +45,8 @@ for player in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	-- FIXME: refactor PerColumnJudgmentTracking to not be inside this loop
 	--        the Lua input callback logic shouldn't be duplicated for each player
 	af[#af+1] = LoadActor("./PerColumnJudgmentTracking.lua", player)
+
+	af[#af+1] = LoadActor("./LaneCover.lua", player)
 end
 
 return af

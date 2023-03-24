@@ -44,6 +44,10 @@ local PlayerDefaults = {
 				ErrorBarTrim = false,
 
 				TimingWindows = {true, true, true, true, true},
+				LaneCover="0%",
+				BackgroundBrightness="0%",
+				NotefieldPositionX = "50%",
+				NotefieldPositionY = "0%",
 				ShowFaPlusWindow = false,
 				ShowEXScore = false,
 				ShowFaPlusPane = true,
@@ -461,7 +465,8 @@ SL = {
 	--              (either success or failure).
 	-- If a request fails, there will be another key:
 	--    ErrorMessage: string, the reasoning for the failure.
-	Downloads = {}
+	Downloads = {},
+	StageStartTime = 0,
 }
 
 
