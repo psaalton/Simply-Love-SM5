@@ -51,7 +51,7 @@ af[#af+1] = Def.Quad{
 
 local h   = (player==PLAYER_1 and left or right)
 local h_reverse   = (player==PLAYER_1 and right or left)
-local x   = (player==PLAYER_1 and -small_pane_w * 0.5 or small_pane_w * 0.5)
+local x   = (player==PLAYER_1 and small_pane_w * -0.5 or small_pane_w * 0.5)
 
 if IsUsingWideScreen() then 
 	af[#af+1] = LoadFont("Common Normal").. {

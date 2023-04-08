@@ -25,12 +25,11 @@ local function CreditsText( player )
 			-- this feels like a holdover from SM3.9 that just never got updated
 			local screen = SCREENMAN:GetTopScreen()
 			local str = ScreenSystemLayerHelpers.GetCreditsMessage(player)
-			local stats = SessionDataForStatistics(player)			
-			
+			local stats = SessionDataForStatistics(player)
+
 			if not IsUsingWideScreen() then 
 				self:settext(str)
 			else 
-				
 				if stats.hours < 10 then
 					stats.hours = 0 .. stats.hours
 				end
@@ -61,7 +60,7 @@ local function CreditsText( player )
 					self:settext(str)
 				end
 			end
-
+			
 		end,
 		UpdateVisibleCommand=function(self)
 			screen = SCREENMAN:GetTopScreen()
@@ -155,6 +154,7 @@ t[#t+1] = Def.ActorFrame {
 	CreditsText( PLAYER_2 )
 }
 
+
 -- "Event Mode" or CreditText at lower-center of screen
 t[#t+1] = LoadFont("Common Footer")..{
 	InitCommand=function(self) self:xy(_screen.cx, _screen.h-16):zoom(0.5):horizalign(center) end,
@@ -177,7 +177,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 		end
 
 		if PREFSMAN:GetPreference("EventMode") then
-			local text = ("Event mode")
+			local text = ("Event")
 			self:settext(text)
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then
