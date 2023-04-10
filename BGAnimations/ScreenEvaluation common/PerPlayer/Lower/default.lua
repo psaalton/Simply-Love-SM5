@@ -12,6 +12,8 @@ local small_pane_w = 300
 local pane_width = 300
 local pane_height  = 180
 
+
+
 -- if only one player is joined, use more screen width to draw two
 -- side-by-side panes that both belong to this player
 if NumPlayers == 1 and SL.Global.GameMode ~= "Casual" then
@@ -49,9 +51,7 @@ af[#af+1] = Def.Quad{
 	end
 }
 
-local h   = (player==PLAYER_1 and left or right)
-local h_reverse   = (player==PLAYER_1 and right or left)
-local x   = (player==PLAYER_1 and small_pane_w * -0.5 or small_pane_w * 0.5)
+
 
 if IsUsingWideScreen() then 
 	af[#af+1] = LoadFont("Common Normal").. {
@@ -59,7 +59,21 @@ if IsUsingWideScreen() then
 		Text=(""),
 
 		InitCommand=function(self)
-			self:xy(x, _screen.h-65):horizalign(h_reverse)
+			local align   = (player==PLAYER_1 and right or left)
+			local stats_position_x   = 0
+			local right_side_offset = 0
+			local left_side_offset = 0
+
+			if NumPlayers == 2 or SL.Global.GameMode == "Casual" then 
+				left_side_offset = small_pane_w * -0.5
+				right_side_offset =  small_pane_w * 0.5
+				stats_position_x  = (player==PLAYER_1 and left_side_offset or right_side_offset)
+			else
+				left_side_offset = small_pane_w * -0.5
+				right_side_offset =  small_pane_w + pane_spacing + small_pane_w * 0.5
+				stats_position_x  = (player==PLAYER_1 and left_side_offset or right_side_offset)
+			end
+			self:xy(stats_position_x, _screen.h-65):horizalign(align)
 		end,
 
 		ScreenChangedMessageCommand=function(self) self:playcommand("Refresh") end,

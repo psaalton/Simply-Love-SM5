@@ -17,6 +17,7 @@ local function CreditsText( player )
 	return LoadFont("Common Normal") .. {
 		InitCommand=function(self)
 			self:visible(false)
+			self:maxwidth(325)
 			self:name("Credits" .. PlayerNumberToString(player))
 			ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen")
 		end,
@@ -177,7 +178,7 @@ t[#t+1] = LoadFont("Common Footer")..{
 		end
 
 		if PREFSMAN:GetPreference("EventMode") then
-			local text = ("Event")
+			local text = ("Event Mode")
 			self:settext(text)
 
 		elseif GAMESTATE:GetCoinMode() == "CoinMode_Pay" then
