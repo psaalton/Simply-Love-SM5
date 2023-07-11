@@ -13,7 +13,8 @@ local FilterAlpha = {
 
 return Def.Quad{
 	InitCommand=function(self)
-		self:xy(GetNotefieldX(player) + mods.NoteFieldOffsetX, _screen.cy )
+		local multiplier = pn == "P1" and -1 or 1
+		self:xy(GetNotefieldX(player) + (mods.NoteFieldOffsetX * multiplier), _screen.cy )
 			:diffuse(Color.Black)
 			:diffusealpha( FilterAlpha[mods.BackgroundFilter] or 0 )
 			:zoomto( GetNotefieldWidth(), _screen.h )

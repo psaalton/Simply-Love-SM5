@@ -7,11 +7,12 @@ local layout = GetGameplayLayout(player, opts:Reverse() ~= 0)
 local af = Def.ActorFrame{
   Name="NoteFieldContainer"..pn,
   OnCommand=function(self)
+    local multiplier = pn == "P1" and -1 or 1
     -- We multiply by 2 here because most child actors use the center of the
     -- playfield as the anchor point, and we want to move the playfield as a whole.
-    self:addx(mods.NoteFieldOffsetX * 2)
+    self:addx(mods.NoteFieldOffsetX * 2 * multiplier)
     self:addy(mods.NoteFieldOffsetY * 2)
-    SCREENMAN:GetTopScreen():GetChild("Player"..pn):GetChild("NoteField"):addx(mods.NoteFieldOffsetX)
+    SCREENMAN:GetTopScreen():GetChild("Player"..pn):GetChild("NoteField"):addx(mods.NoteFieldOffsetX * multiplier)
     SCREENMAN:GetTopScreen():GetChild("Player"..pn):GetChild("NoteField"):addy(mods.NoteFieldOffsetY)
   end,
 }
